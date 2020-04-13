@@ -2,27 +2,36 @@
 /**
  * External dependencies
  */
+import { get } from 'lodash';
+
+/**
+ * WordPress dependencies
+ */
 import { registerStore } from '@wordpress/data';
 
 const reducer = ( state = {}, { type, searchTerm, context = 'unknown', notFound } ) => {
 	switch ( type ) {
 		case 'SET_SEARCH_TERM':
-			const searcher = state.searcher ? state.searcher[ context ] : {};
 			return {
 				...state,
-				searcher: { [ context ]: { ...searcher, searchTerm } }
+				searcher: {
+					[ context ]: {
+						...( state.searcher ? state.searcher[ context ] : {} ),
+						searchTerm,
+					},
+				},
 			};
 
 		case 'SET_SEARCH_BLOCKS':
 			return {
 				...state,
-				searcher: { [ context ]: { ...state.searcher[ context ], notFound } }
+				searcher: { [ context ]: { ...state.searcher[ context ], notFound } },
 			};
 
 		case 'SET_SEARCH_BLOCKS_NOT_FOUND':
 			return {
 				...state,
-				searcher: { [ context ]: { ...state.searcher[ context ], notFound: true } }
+				searcher: { [ context ]: { ...state.searcher[ context ], notFound: true } },
 			};
 	}
 
@@ -48,7 +57,9 @@ const actions = {
 	} ),
 };
 
-const selectors = {};
+const selectors = {
+	getSearchTerm: ( state, { context } ) => get( state, [ 'searcher', context, 'searchTerm' ] ),
+};
 
 registerStore( 'automattic/tracking', {
 	reducer,
