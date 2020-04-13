@@ -9,17 +9,17 @@ import debug from 'debug';
 /**
  * WordPress dependencies
  */
-import { select } from '@wordpress/data';
-
-/**
- * Internal dependencies
- */
-import tracksRecordEvent from './track-record-event';
+import { select, dispatch } from '@wordpress/data';
 
 const tracksDebug = debug( 'wpcom-block-editor:analytics:tracks:block-search' );
 
 let lastSearchTerm;
 const trackSearchTerm = ( event, target ) => {
+	// Actions dispatcher.
+	const { setSearchTerm, setSearchBlocks, setSearchBlocksNotFound } = dispatch(
+		'automattic/tracking'
+	);
+
 	const key = event.key || event.keyCode;
 	const search_term = ( target.value || '' ).trim().toLowerCase();
 
@@ -28,13 +28,7 @@ const trackSearchTerm = ( event, target ) => {
 	}
 	lastSearchTerm = search_term;
 
-	if ( search_term.length < 3 ) {
-		return;
-	}
-
-	const eventProperties = {
-		search_term,
-	};
+	const eventProperties = { search_term };
 
 	/*
 	 * Populate event properties with `selected_block`
@@ -45,15 +39,22 @@ const trackSearchTerm = ( event, target ) => {
 		eventProperties.selected_block = selectedBlock.name;
 	}
 
-	tracksRecordEvent( 'wpcom_block_picker_search_term', { ...eventProperties } );
+	setSearchTerm( eventProperties );
 
-	// Create a separate event for search with no results to make it easier to filter by them
-	const hasResults = document.querySelectorAll( '.block-editor-inserter__no-results' ).length === 0;
-	if ( hasResults ) {
+	if ( search_term.length < 3 ) {
 		return;
 	}
 
-	tracksRecordEvent( 'wpcom_block_picker_no_results', { ...eventProperties } );
+	const blocksNotFound =
+		document.querySelectorAll( '.block-editor-inserter__no-results' ).length !== 0;
+
+	// Dispatch search blocks action.
+	setSearchBlocks( { ...event, notFound: blocksNotFound } );
+
+	// Create a separate event for search with no results to make it easier to filter by them.
+	if ( blocksNotFound ) {
+		setSearchBlocksNotFound( eventProperties );
+	}
 };
 
 /**
