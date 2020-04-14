@@ -12,7 +12,7 @@ import { STORE_KEY as ONBOARD_STORE } from '../stores/onboard';
 import { selectorDebounce } from '../constants';
 
 export function useDomainSuggestions( { searchOverride = '', locale = 'en' } ) {
-	const { siteTitle, siteVertical, domainSearch } = useSelect( select =>
+	const { siteTitle, siteVertical, domainSearch } = useSelect( ( select ) =>
 		select( ONBOARD_STORE ).getState()
 	);
 
@@ -22,7 +22,7 @@ export function useDomainSuggestions( { searchOverride = '', locale = 'en' } ) {
 	);
 
 	return useSelect(
-		select => {
+		( select ) => {
 			if ( ! searchTerm ) {
 				return;
 			}

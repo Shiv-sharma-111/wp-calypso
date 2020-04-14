@@ -249,7 +249,7 @@ export class Checkout extends React.Component {
 					selectedSiteSlug
 				);
 			} )
-			.filter( item => item );
+			.filter( ( item ) => item );
 		replaceCartWithItems( itemsToAdd );
 	}
 
@@ -776,7 +776,7 @@ export class Checkout extends React.Component {
 		const availableTerms = findPlansKeys( {
 			group: chosenPlan.group,
 			type: chosenPlan.type,
-		} ).filter( planSlug => getPlan( planSlug ).availableFor( currentPlanSlug ) );
+		} ).filter( ( planSlug ) => getPlan( planSlug ).availableFor( currentPlanSlug ) );
 
 		if ( availableTerms.length < 2 ) {
 			return false;
@@ -868,7 +868,7 @@ export class Checkout extends React.Component {
 
 		if ( this.props.children ) {
 			this.props.setHeaderText( '' );
-			return React.Children.map( this.props.children, child => {
+			return React.Children.map( this.props.children, ( child ) => {
 				return React.cloneElement( child, {
 					handleCheckoutCompleteRedirect: this.handleCheckoutCompleteRedirect,
 				} );
