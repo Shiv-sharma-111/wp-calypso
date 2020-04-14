@@ -15,6 +15,8 @@ import {
 	translateCheckoutPaymentMethodToWpcomPaymentMethod,
 	domainManagedContactDetails,
 	taxManagedContactDetails,
+	prepareDomainContactValidationRequest,
+	formatDomainContactValidationResponse,
 	isCompleteAndValid,
 	areRequiredFieldsNotEmpty,
 } from './types';
@@ -33,6 +35,8 @@ export {
 	translateCheckoutPaymentMethodToWpcomPaymentMethod,
 	domainManagedContactDetails,
 	taxManagedContactDetails,
+	prepareDomainContactValidationRequest,
+	formatDomainContactValidationResponse,
 	areDomainsInLineItems,
 	isCompleteAndValid,
 	areRequiredFieldsNotEmpty,

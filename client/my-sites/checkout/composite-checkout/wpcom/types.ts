@@ -47,6 +47,8 @@ import {
 	PossiblyCompleteDomainContactDetails,
 	prepareDomainContactDetails,
 	prepareDomainContactDetailsErrors,
+	prepareDomainContactValidationRequest,
+	formatDomainContactValidationResponse,
 	isValid,
 	areRequiredFieldsNotEmpty,
 } from './types/wpcom-store-state';
@@ -91,6 +93,8 @@ export {
 	PossiblyCompleteDomainContactDetails,
 	prepareDomainContactDetails,
 	prepareDomainContactDetailsErrors,
+	prepareDomainContactValidationRequest,
+	formatDomainContactValidationResponse,
 	isValid,
 	areRequiredFieldsNotEmpty,
 };
